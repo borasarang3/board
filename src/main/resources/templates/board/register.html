@@ -48,6 +48,15 @@
                         </div>
                     </div>
 
+                    <div class="row imgDiv row-cols-md-3 ">
+                        <div class="col " style="border: 1px solid black;">
+
+                            <input type="file" id="imgFile" name="multi" class="imgFile">
+
+
+                        </div>
+                    </div>
+
                     <div class="row mb-3 fileinput">
                         <input type="file" class="imgpreviewinput"><br>
                     </div>
@@ -60,9 +69,38 @@
 
                         })
 
+                        $(".imgDiv").on("change", "input[type='file']",function () {
+                            readURL1(this)
+                            console.log($(this));
+                            $(this).hide()
+                            $(this).prev().hide()
+
+                        })
+
                         $(".fileinput").on("click", ".bb", function () {
                             $(this).parent().remove();
                         })
+
+                        function readURL1(input) {
+                            if (input.files && input.files[0]) {
+                                console.log("zzz");
+
+                                var reader = new FileReader();
+                                reader.onload = function(e) {
+                                    let str = `<div class="col"  style="border: 1px solid black;">
+                                  <input type="file" id="imgFile" name="multi" class="imgFile" style="width: 20px;">
+                               </div>`
+                                    let str1 = ` <div class="preview ">
+                                  <img width="100%" src="${e.target.result}">
+                                  <button type='button' class='bb'>올리지 않기</button>
+                                </div>`
+                                    $(".imgDiv div:first-child").append(str1)
+                                    $(".imgDiv").prepend(str)
+
+                                };
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
 
                         function readURL(input) {
                             if (input.files && input.files[0]) {
